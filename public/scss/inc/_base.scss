@@ -7,9 +7,7 @@ html {
 }
 
 body{
-    color : #efefef;
     font-family: Roboto;
-    background-color : #333;
     font-size: 16px;
 }
 a {
@@ -21,9 +19,103 @@ a:hover {
     transition: color 0.5s ease;
 }
 
-h1 {
-    font-size: 2.2rem;
+
+
+body > header {
+    background-color: $bg-head;
+    color: $fg-head;
+    h1, h2 {
+        font-family: Kalam;
+        text-align: center;
+    }
+    h1 {
+        font-size: 2.4rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
 }
-h2 {
-    font-size: 2rem;
+
+body > main {
+    background-color: $bg-main;
+    color: $fg-main;
+}
+
+body > footer {
+    background-color: $bg-foot;
+    color: $fg-foot;
+    font-size: .9rem;
+    text-align: center;
+}
+
+input {
+
+}
+
+.search{
+    form {
+        padding: 10px 0;
+        label {
+            color: $second;
+            font-style: italic;
+        }
+        & > div {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: no-wrap;
+            & > input {
+                height: 50px;
+                font-size: 1.2rem;
+                margin: 5px;
+                border-radius: 6px;
+                border: solid 2px $primary;
+                &[type=text] {
+                    flex: 1 1 auto;
+                    overflow: hidden;
+                    background-color: $bg-main;
+                    color: $fg-main;
+                }
+                &[type=button] {
+                    flex: 1 1 50px;
+                    background-color: $bg-head;
+                    color: $fg-head;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.items {
+    overflow-y: auto;
+    header {
+        border-bottom: solid 1px $second;
+        h1 {
+            color: $second;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+    }
+    article {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: no-wrap;
+        position: relative;
+        height: 75px;
+        border-bottom: solid 1px $second;
+        .thumb {
+            background-color: #eee;
+            margin: 5px;
+            flex: 0 1 70px;
+        }
+        .desc {
+            flex: 1 1 auto;
+            margin: 5px;
+        }
+        .quantity {
+            background-color: #eee;
+            flex: 0 1 50px;
+            margin: 5px;
+        }
+    }
 }

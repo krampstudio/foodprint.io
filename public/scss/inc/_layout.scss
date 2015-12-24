@@ -1,0 +1,14 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+header,footer {
+    padding: 10px 5px;
+}
+main {
+    flex: 1;
+}
+
+
+
