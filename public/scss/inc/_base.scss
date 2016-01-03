@@ -101,7 +101,7 @@ input {
         flex-direction: row;
         flex-wrap: no-wrap;
         position: relative;
-        height: 75px;
+        height: 100px;
         border-bottom: solid 1px $second;
         .thumb {
             background-color: #eee;
@@ -111,11 +111,51 @@ input {
         .desc {
             flex: 1 1 auto;
             margin: 5px;
+            .name {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+            .weight{
+                font-style: italic;
+                &:before {
+                    content: '(';
+                }
+                &:after {
+                    content: ')';
+                }
+
+            }
+            .energy {
+                display: block;
+
+            }
+            .composition > span {
+                &:before {
+                    content: '';
+                    width: 25px;
+                    height: 25px;
+                    border: solid 10px grey;
+                    border-radius: 10px;
+                    font-size: 0;
+                    vertical-align: middle;
+                }
+                &.good:before {
+                    border-color: green;
+                }
+                &.moderate:before {
+                    border-color: yellow;
+                }
+                &.bad:before {
+                    border-color: red;
+                }
+            }
         }
         .quantity {
-            background-color: #eee;
             flex: 0 1 50px;
-            margin: 5px;
+            input {
+                width: 50px;
+                margin: 25px 0;
+            }
         }
     }
 }
