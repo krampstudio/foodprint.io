@@ -10,152 +10,20 @@ body{
     font-family: Roboto;
     font-size: 16px;
 }
+html body * {
+    font-family: Roboto;
+}
 a {
     color : #3689B2;
     text-decoration: none;
+    transition: opacity 0.3s ease;
 }
-a:hover {
-    color : #7EB0C9;
-    transition: color 0.5s ease;
-}
-
-
-
-body > header {
-    background-color: $bg-head;
-    color: $fg-head;
-    h1, h2 {
-        font-family: Kalam;
-        text-align: center;
-    }
-    h1 {
-        font-size: 2.4rem;
-    }
-    h2 {
-        font-size: 1.8rem;
-    }
+a:hover, button:hover, input[type=button]:hover {
+    opacity: .8;
+    transition: opacity 0.4s ease;
 }
 
-body > main {
-    background-color: $bg-main;
-    color: $fg-main;
-}
-
-body > footer {
-    background-color: $bg-foot;
-    color: $fg-foot;
+abbr{
     font-size: .9rem;
-    text-align: center;
-}
-
-input {
-
-}
-
-.search{
-    form {
-        padding: 10px 0;
-        label {
-            color: $second;
-            font-style: italic;
-        }
-        & > div {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: no-wrap;
-            & > input {
-                height: 50px;
-                font-size: 1.2rem;
-                margin: 5px;
-                border-radius: 6px;
-                border: solid 2px $primary;
-                &[type=text] {
-                    flex: 1 1 auto;
-                    overflow: hidden;
-                    background-color: $bg-main;
-                    color: $fg-main;
-                }
-                &[type=button] {
-                    flex: 1 1 50px;
-                    background-color: $bg-head;
-                    color: $fg-head;
-                    cursor: pointer;
-                }
-            }
-        }
-    }
-}
-
-.items {
-    overflow-y: auto;
-    header {
-        border-bottom: solid 1px $second;
-        h1 {
-            color: $second;
-            font-size: 1.8rem;
-            text-align: center;
-        }
-    }
-    article {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: no-wrap;
-        position: relative;
-        height: 100px;
-        border-bottom: solid 1px $second;
-        .thumb {
-            background-color: #eee;
-            margin: 5px;
-            flex: 0 1 70px;
-        }
-        .desc {
-            flex: 1 1 auto;
-            margin: 5px;
-            .name {
-                font-size: 1.2rem;
-                font-weight: bold;
-            }
-            .weight{
-                font-style: italic;
-                &:before {
-                    content: '(';
-                }
-                &:after {
-                    content: ')';
-                }
-
-            }
-            .energy {
-                display: block;
-
-            }
-            .composition > span {
-                &:before {
-                    content: '';
-                    width: 25px;
-                    height: 25px;
-                    border: solid 10px grey;
-                    border-radius: 10px;
-                    font-size: 0;
-                    vertical-align: middle;
-                }
-                &.good:before {
-                    border-color: green;
-                }
-                &.moderate:before {
-                    border-color: yellow;
-                }
-                &.bad:before {
-                    border-color: red;
-                }
-            }
-        }
-        .quantity {
-            flex: 0 1 50px;
-            input {
-                width: 50px;
-                margin: 25px 0;
-            }
-        }
-    }
+    font-style: italic;
 }

@@ -1,0 +1,141 @@
+
+body > header {
+    background-color: $bg-head;
+    color: $fg-head;
+    h1, h2 {
+        font-family: Kalam;
+        text-align: center;
+    }
+    h1 {
+        font-size: 2.4rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
+}
+
+body > main {
+    background-color: $bg-main;
+    color: $fg-main;
+}
+
+body > footer {
+    background-color: $bg-foot;
+    color: $fg-foot;
+    font-size: .9rem;
+    text-align: center;
+}
+
+.search{
+    form {
+        padding: 10px;
+        label {
+            color: $second;
+            font-style: italic;
+        }
+        & > div {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: no-wrap;
+            & > input {
+                height: 50px;
+                font-size: 1.2rem;
+                margin: 5px 0;
+
+                border-radius: 6px;
+                border: solid 2px $primary;
+                &[type=text] {
+                    flex: 1 1 auto;
+                    overflow: hidden;
+                    background-color: $bg-main;
+                    color: $fg-main;
+                    padding-left: 10px;
+                }
+                &[type=button] {
+                    flex: 1 1 50px;
+                    background-color: $bg-head;
+                    color: $fg-head;
+                    cursor: pointer;
+                    margin-left: 5px;
+
+                }
+            }
+        }
+    }
+}
+
+.items {
+    overflow-y: auto;
+    article {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: no-wrap;
+        position: relative;
+        height: 125px;
+        border-bottom: solid 1px $second;
+        .thumb {
+            background-color: #eee;
+            margin: 5px;
+            flex: 0 1 100px;
+        }
+        .desc {
+            flex: 1 1 auto;
+            margin: 5px;
+            .name {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+            .weight{
+                font-style: italic;
+                &:before {
+                    content: '(';
+                }
+                &:after {
+                    content: ')';
+                }
+
+            }
+            h2 {
+                margin: 5px;
+            }
+            .energy{
+                margin: 5px;
+            }
+            .composition{
+                clear: both;
+                width: 100%;
+                dt {
+                    float: left;
+                    margin: 5px;
+                }
+                dd {
+                    margin: 5px;
+                    font-weight: bold;
+                    float: left;
+                    &.good {
+                        color: green;
+                    }
+                    &.moderate {
+                        color: yellow;
+                    }
+                    &.bad {
+                        color : red;
+                    }
+                }
+            }
+        }
+        .actions {
+            flex: 0 1 75px;
+            .delete {
+                border: solid 4px #3689B2;
+                border-radius: 25px;
+                width: 32px;
+                height: 32px;
+                display: inline-block;
+                text-align: center;
+                font-size: 16px;
+                line-height: 20px;
+            }
+        }
+    }
+}
