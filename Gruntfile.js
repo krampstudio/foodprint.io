@@ -17,6 +17,17 @@ module.exports = function(grunt) {
             }
         },
 
+
+        mochaTest : {
+            test: {
+                options: {
+                    reporter: 'spec',
+                    require: 'babel-register'
+                },
+                src: ['test/**/*_spec.js']
+            }
+        },
+
         open: {
             preview: {
                 path: 'http://<%=pkg.config.host%>:<%=pkg.config.port%>/index.html',
@@ -59,6 +70,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.registerTask('dev', ['connect:preview', 'open:preview', 'watch:dev']);
 };

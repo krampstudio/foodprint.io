@@ -1,0 +1,1 @@
+node_modules/.bin/mocha --compilers js:babel-register test/provider/aliment_spec.js
