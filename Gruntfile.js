@@ -5,12 +5,15 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         mochaTest : {
+            options: {
+                reporter: 'spec',
+                require: 'babel-register'
+            },
             unit : {
-                options: {
-                    reporter: 'spec',
-                    require: 'babel-register'
-                },
                 src: ['test/**/*_spec.js']
+            },
+            integration : {
+                src: ['test/integration/**/*.js']
             }
         },
 
@@ -35,5 +38,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-mocha-test');
+
+    grunt.registerTask(
+        'test',
+        'Run automated tests',
+        ['mochaTest:unit', 'mochaTest:integration']
+    );
 };
 
