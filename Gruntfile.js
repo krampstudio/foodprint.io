@@ -2,21 +2,34 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
-        pkg: grunt.file.readJSON('package.json'),
-
-        mochaTest : {
-            options: {
-                reporter: 'spec',
-                require: 'babel-register'
-            },
-            unit : {
-                src: ['test/**/*_spec.js']
-            },
-            integration : {
-                src: ['test/integration/**/*.js']
+        clean: {
+            coverage: {
+                src: ['coverage']
             }
         },
 
+
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
+                    require: ['babel-register']
+                },
+                src: ['test/**/*.js']
+            }
+        },
+
+        shell: {
+            coverage: {
+                command: 'node_modules/.bin/babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- test/**/*.js'
+            }
+        },
+
+        open : {
+            coverage: {
+                path : './coverage/lcov-report/index.html'
+            }
+        },
 
         eslint: {
             all: ['**/*.js', '!node_modules/**/*.js']
@@ -38,11 +51,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask(
-        'test',
-        'Run automated tests',
-        ['mochaTest:unit', 'mochaTest:integration']
-    );
+    grunt.registerTask('coverage', ['clean:coverage', 'mochaTest:test', 'shell:coverage', 'open:coverage']);
 };
 
