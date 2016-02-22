@@ -1,16 +1,19 @@
 module.exports = function(grunt) {
 
     //environment
-    var env = grunt.option('env') || 'dev';
+    var env = grunt.option('env');
+    if(grunt.option('no-env')){
+        env = 'dev';
+    }
     var cssStyles = {
         'dev' : 'expanded',
         'test': 'nested',
         'prod': 'compressed'
     };
 
-    grunt.log.debug('Environment : ' + env);
+    grunt.log.debug('Environment: ' + env);
     if(!cssStyles[env]){
-        grunt.log.warn('Unkwon environment :' + env);
+        grunt.log.warn('Unknow environment: ' + env);
     }
 
     grunt.initConfig({
