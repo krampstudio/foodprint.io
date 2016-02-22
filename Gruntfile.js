@@ -1,6 +1,30 @@
 module.exports = function(grunt) {
 
+    //environment
+    var env = grunt.option('env') || 'dev';
+    var cssStyles = {
+        'dev' : 'expanded',
+        'test': 'nested',
+        'prod': 'compressed'
+    };
+
+    grunt.log.debug('Environment : ' + env);
+    if(!cssStyles[env]){
+        grunt.log.warn('Unkwon environment :' + env);
+    }
+
     grunt.initConfig({
+
+        sass: {
+            options: {
+                sourceMap : true,
+                outputStyle : cssStyles[env]
+            },
+            compile: {
+                'public/css/foodprint.css' : 'public/scss/foodprint.scss'
+            }
+        },
+
         connect: {
             options : {
                 hostname: '127.0.0.1',
@@ -26,8 +50,6 @@ module.exports = function(grunt) {
             }
         },
 
-
-
         qunit : {
             test: {
                 options: {
@@ -37,8 +59,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-
 
         watch : {
             dev : {
@@ -63,8 +83,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-
 
         browserify: {
             options: {
@@ -137,6 +155,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks('grunt-sass');
 
 
     grunt.registerTask('bundle', 'Generate client side bundles', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
