@@ -74,13 +74,20 @@ module.exports = function(grunt) {
             test : {
                 files: ['public/js/test/**/test.js', 'public/js/src/**/*.js'],
                 tasks: ['browserify:test', 'qunit:test']
+            },
+            sass: {
+                files: ['public/js/scss/**/*.scss'],
+                tasks: ['sass:compile'],
+                options : {
+                    livereload : true
+                }
             }
         },
 
 
         concurrent: {
             dev: {
-                tasks : ['watch:dev', 'watch:test'],
+                tasks : ['watch:dev', 'watch:test', 'watch:sass'],
                 options: {
                     logConcurrentOutput : true
                 }
@@ -161,11 +168,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-sass');
 
 
-    grunt.registerTask('bundle', 'Generate client side bundles', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
+    grunt.registerTask('bundle', 'Compile client side code', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
 
     grunt.registerTask('test', 'Run client side tests', ['browserify:test', 'connect:dev', 'qunit:test']);
 
-    grunt.registerTask('preview', 'Preview the app', ['bundle', 'connect:preview:keepalive']);
+
+    grunt.registerTask('build', 'Compile and test, before releasing', ['bundle', 'sass:compile', 'test']);
+
+    grunt.registerTask('preview', 'Preview the app', ['bundle', 'sass:compile', 'connect:preview:keepalive']);
 
     grunt.registerTask('dev', 'Run development mode', ['connect:dev', 'open:dev', 'concurrent:dev']);
 
