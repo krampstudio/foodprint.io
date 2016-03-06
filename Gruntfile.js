@@ -153,6 +153,12 @@ module.exports = function(grunt) {
                     src: ['bundle.js*']
                 }]
             }
+        },
+
+        foodfact: {
+            dist : {
+
+            }
         }
     });
 
@@ -166,6 +172,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-foodfact');
 
 
     grunt.registerTask('bundle', 'Compile client side code', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
