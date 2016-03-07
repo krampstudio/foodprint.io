@@ -156,8 +156,13 @@ module.exports = function(grunt) {
         },
 
         foodfact: {
-            dist : {
-
+            update : {
+                options: {
+                    'urls': [
+                        'http://world.openfoodfacts.org/data/data-fields.txt',
+                        'http://world.openfoodfacts.org/data/en.openfoodfacts.org.products.csv'
+                    ]
+                }
             }
         }
     });
