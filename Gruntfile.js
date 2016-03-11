@@ -11,10 +11,10 @@ module.exports = function(grunt) {
         'prod': 'compressed'
     };
 
-    grunt.log.debug('Environment: ' + env);
-    if(!cssStyles[env]){
-        grunt.log.warn('Unknow environment: ' + env);
-    }
+    //grunt.log.debug('Environment: ' + env);
+    //if(!cssStyles[env]){
+        //grunt.log.warn('Unknow environment: ' + env);
+    //}
 
     grunt.initConfig({
 
@@ -157,11 +157,15 @@ module.exports = function(grunt) {
 
         foodfact: {
             update : {
+                urls: [
+                    'http://world.openfoodfacts.org/data/data-fields.txt',
+                    'http://world.openfoodfacts.org/data/en.openfoodfacts.org.products.csv'
+                ],
+                files: {
+                    'data/db.json' : 'data/*.csv'
+                },
                 options: {
-                    'urls': [
-                        'http://world.openfoodfacts.org/data/data-fields.txt',
-                        'http://world.openfoodfacts.org/data/en.openfoodfacts.org.products.csv'
-                    ]
+                    download : false
                 }
             }
         }
