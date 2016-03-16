@@ -144,15 +144,18 @@ module.exports = function(grunt) {
                 }
             }
         },
-
         clean: {
+            options: {
+                force : true
+            },
             bundle : {
                 files : [{
                     expand: true,
                     cwd: 'public/js',
                     src: ['bundle.js*']
                 }]
-            }
+            },
+            update : ['data/db.json']
         },
 
         foodfact: {
