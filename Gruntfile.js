@@ -1,110 +1,70 @@
 module.exports = function(grunt) {
 
-    //environment
-    var env = grunt.option('env');
-    if(grunt.option('no-env')){
-        env = 'dev';
-    }
-    var cssStyles = {
-        'dev' : 'expanded',
-        'test': 'nested',
-        'prod': 'compressed'
-    };
-
-    grunt.log.debug('Environment: ' + env);
-    if(!cssStyles[env]){
-        grunt.log.warn('Unknow environment: ' + env);
-    }
-
-    var connectUrl = 'http://127.0.0.1:4321/';
-    var testUrls =  grunt.file.expand('public/js/test/**/test.html')
-                        .map(function(url){
-                            return connectUrl + url.replace('public/', '');
-                        });
 
     grunt.initConfig({
 
+        cfg: grunt.file.readJSON('config.json'),
+
         sass: {
             options: {
-                sourceMap : true,
-                outputStyle : cssStyles[env]
+                sourceMap: true,
+                outputStyle: 'compressed'
             },
             compile: {
-                'public/css/foodprint.css' : 'public/scss/foodprint.scss'
+                files : [{
+                    dest: '<%= cfg.baseDir %>css/foodprint.css',
+                    src : '<%= cfg.baseDir %>scss/foodprint.scss'
+                }]
             }
         },
 
         connect: {
-            options : {
-                hostname: '127.0.0.1',
-                port: 4321,
-                base : 'public'
+            options: {
+                hostname: '<%= cfg.server.host %>',
+                port: '<%= cfg.server.port %>',
+                base: '<%= cfg.baseDir %>'
             },
-            preview : {
+            preview: {
                 options: {
-                    open : true
+                    open: true
                 }
             },
-            dev : {
+            dev: {
                 options: {
-                    livereload : true
+                    livereload: true
                 }
             }
         },
 
-        open : {
-            dev : {
-                path: connectUrl + 'index.html',
-                app : 'fxdev'
+        open: {
+            dev: {
+                path: 'http://<%=cfg.server.host%>:<%=cfg.server.port%>/index.html',
+                app: 'fxdev'
             }
         },
 
-        qunit : {
+        //tests
+
+        qunit: {
             test: {
                 options: {
-                    urls : testUrls
-                }
-            }
-        },
-
-        watch : {
-            dev : {
-                files: ['public/js/src/**/*.js'],
-                tasks: ['bundle'],
-                options : {
-                    livereload : true
-                }
-            },
-            test : {
-                files: ['public/js/test/**/test.js', 'public/js/src/**/*.js'],
-                tasks: ['browserify:test', 'qunit:test']
-            },
-            sass: {
-                files: ['public/js/scss/**/*.scss'],
-                tasks: ['sass:compile'],
-                options : {
-                    livereload : true
+                    urls: grunt.file.expand('public/js/test/**/test.html')
+                        .map(function(url) {
+                            return 'http://<%=cfg.server.host%>:<%=cfg.server.port%>/' + url.replace('public/', '');
+                        })
                 }
             }
         },
 
 
-        concurrent: {
-            dev: {
-                tasks : ['watch:dev', 'watch:test', 'watch:sass'],
-                options: {
-                    logConcurrentOutput : true
-                }
-            }
-        },
 
-//bundling related configuration
+        //bundling related configuration
 
         browserify: {
             options: {
                 transform: [
                     ['babelify', {
-                        'presets' : ['es2015']
+                        'presets': ['es2015']
                     }]
                 ],
                 browserifyOptions: {
@@ -116,8 +76,8 @@ module.exports = function(grunt) {
                     'public/js/bundle.js': ['public/js/src/main.js']
                 }
             },
-            test : {
-                files : [{
+            test: {
+                files: [{
                     expand: true,
                     cwd: 'public/js/test/',
                     dest: 'public/js/test/',
@@ -143,42 +103,78 @@ module.exports = function(grunt) {
                 options: {
                     sourceMap: true,
                     sourceMapIncludeSources: true,
-                    sourceMapIn: 'public/js/bundle.js.map'
+                    sourceMapIn: '<%=cfg.baseDir%>js/bundle.js.map',
+                    banner: '/* Foodprint.io © <%= grunt.template.today("yyyy") %> */'
                 },
-                files: {
-                    'public/js/bundle.min.js': ['public/js/bundle.js']
-                }
+                files: [{
+                    dest : '<%=cfg.baseDir%>js/bundle.min.js',
+                    src  : ['<%=cfg.baseDir%>js/bundle.js']
+                }]
             }
         },
 
-        clean: {
-            options: {
-                force : true
-            },
-            bundle : {
-                files : [{
-                    expand: true,
-                    cwd: 'public/js',
-                    src: ['bundle.js*']
-                }]
-            },
-            update : ['data/db.json']
-        },
+        // update dd
 
         foodfact: {
-            update : {
+            update: {
                 urls: [
                     'http://world.openfoodfacts.org/data/data-fields.txt',
                     'http://world.openfoodfacts.org/data/en.openfoodfacts.org.products.csv'
                 ],
                 files: {
-                    'data/db.json' : 'data/*.csv'
+                    'data/db.json': 'data/*.csv'
                 },
                 options: {
-                    download : false
+                    download: false
                 }
             }
-        }
+        },
+
+        //tasks management
+
+        clean: {
+            options: {
+                force: true
+            },
+            bundle: {
+                files: [{
+                    expand: true,
+                    cwd: 'public/js',
+                    src: ['bundle.js*']
+                }]
+            },
+            update: ['data/db.json']
+        },
+        watch: {
+            dev: {
+                files: ['public/js/src/**/*.js'],
+                tasks: ['bundle'],
+                options: {
+                    livereload: true
+                }
+            },
+            test: {
+                files: ['public/js/test/**/test.js', 'public/js/src/**/*.js'],
+                tasks: ['browserify:test', 'qunit:test']
+            },
+            sass: {
+                files: ['public/js/scss/**/*.scss'],
+                tasks: ['sass:compile'],
+                options: {
+                    livereload: true
+                }
+            }
+        },
+
+
+        concurrent: {
+            dev: {
+                tasks: ['watch:dev', 'watch:test', 'watch:sass'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
+        },
     });
 
     require('load-grunt-tasks')(grunt);

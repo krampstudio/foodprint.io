@@ -1,0 +1,7 @@
+{
+  "baseDir": "public/",
+  "server": {
+    "host": "localhost",
+    "port": 4321
+  }
+}
