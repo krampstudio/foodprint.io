@@ -11,10 +11,16 @@ module.exports = function(grunt) {
         'prod': 'compressed'
     };
 
-    //grunt.log.debug('Environment: ' + env);
-    //if(!cssStyles[env]){
-        //grunt.log.warn('Unknow environment: ' + env);
-    //}
+    grunt.log.debug('Environment: ' + env);
+    if(!cssStyles[env]){
+        grunt.log.warn('Unknow environment: ' + env);
+    }
+
+    var connectUrl = 'http://127.0.0.1:4321/';
+    var testUrls =  grunt.file.expand('public/js/test/**/test.html')
+                        .map(function(url){
+                            return connectUrl + url.replace('public/', '');
+                        });
 
     grunt.initConfig({
 
@@ -48,7 +54,7 @@ module.exports = function(grunt) {
 
         open : {
             dev : {
-                path: 'http://127.0.0.1:4321/index.html',
+                path: connectUrl + 'index.html',
                 app : 'fxdev'
             }
         },
@@ -56,9 +62,7 @@ module.exports = function(grunt) {
         qunit : {
             test: {
                 options: {
-                    urls : grunt.file.expand('public/js/test/**/test.html').map(function(url){
-                        return 'http://127.0.0.1:4321/' + url.replace('public/', '');
-                    })
+                    urls : testUrls
                 }
             }
         },
@@ -93,6 +97,8 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+//bundling related configuration
 
         browserify: {
             options: {
@@ -144,6 +150,7 @@ module.exports = function(grunt) {
                 }
             }
         },
+
         clean: {
             options: {
                 force : true
@@ -174,23 +181,11 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-browserify');
-    grunt.loadNpmTasks('grunt-concurrent');
-    grunt.loadNpmTasks('grunt-exorcise');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-qunit');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-foodfact');
-
+    require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('bundle', 'Compile client side code', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
 
     grunt.registerTask('test', 'Run client side tests', ['browserify:test', 'connect:dev', 'qunit:test']);
-
 
     grunt.registerTask('build', 'Compile and test, before releasing', ['bundle', 'sass:compile', 'test']);
 
