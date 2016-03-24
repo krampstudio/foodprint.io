@@ -5,19 +5,6 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        sass: {
-            options: {
-                sourceMap: true,
-                outputStyle: 'compressed'
-            },
-            compile: {
-                files : [{
-                    dest: '<%= pkg.cfg.baseDir %>css/foodprint.css',
-                    src : '<%= pkg.cfg.baseDir %>scss/foodprint.scss'
-                }]
-            }
-        },
-
         connect: {
             options: {
                 hostname: '<%= pkg.cfg.host %>',
@@ -158,13 +145,6 @@ module.exports = function(grunt) {
             test: {
                 files: ['public/js/test/**/test.js', 'public/js/src/**/*.js'],
                 tasks: ['browserify:test', 'qunit:test']
-            },
-            sass: {
-                files: ['public/js/scss/**/*.scss'],
-                tasks: ['sass:compile'],
-                options: {
-                    livereload: true
-                }
             }
         },
 
@@ -176,10 +156,13 @@ module.exports = function(grunt) {
                     logConcurrentOutput: true
                 }
             }
-        },
+        }
     });
 
     require('load-grunt-tasks')(grunt);
+
+    grunt.loadTasks('grunt/');
+
 
     grunt.registerTask('bundle', 'Compile client side code', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
 
