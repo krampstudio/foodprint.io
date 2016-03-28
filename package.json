@@ -6,7 +6,8 @@
     "bundle": "grunt bundle",
     "compile": "grunt bundle > /dev/null && grunt sass:compile > /dev/null ",
     "test" : "grunt test",
-    "prepublish" : "grunt bundle"
+    "prepublish" : "grunt bundle",
+    "start" : "grunt preview"
   },
   "author": "Bertrand Chevrier <chevrier.bertrand@gmail.com>",
   "license": "MIT",
@@ -33,7 +34,8 @@
     "qunitjs": "^1.21.0"
   },
   "cfg": {
-    "baseDir": "public/",
+    "baseDir": "public",
+    "dataDir" : "data",
     "host": "127.0.0.1",
     "port": 4321,
     "browser": "fxdev -no-remote"

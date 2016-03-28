@@ -1,52 +1,19 @@
+/**
+ * Default Grunt configuration.
+ * Tasks are conbfigured into their respective files :
+ *  - grunt/sass.js   : SCSS compilcation
+ *  - grunt/test.js   : compile and run tests
+ *  - grunt/bundle.js : compile and optimize client side js
+ *  - grunt/dev.js    : development modes
+ */
 module.exports = function(grunt) {
-
 
     grunt.initConfig({
 
+    //load config and metadata
         pkg: grunt.file.readJSON('package.json'),
 
-        connect: {
-            options: {
-                hostname: '<%= pkg.cfg.host %>',
-                port: '<%= pkg.cfg.port %>',
-                base: '<%= pkg.cfg.baseDir %>'
-            },
-            preview: {
-                options: {
-                    open: true
-                }
-            },
-            dev: {
-                options: {
-                    livereload: true
-                }
-            }
-        },
-
-        open: {
-            dev: {
-                path: 'http://<%=pkg.cfg.host%>:<%=pkg.cfg.port%>/index.html',
-                app: 'fxdev'
-            }
-        },
-
-        //tests
-
-        qunit: {
-            test: {
-                options: {
-                    urls: grunt.file.expand('public/js/test/**/test.html')
-                        .map(function(url) {
-                            return 'http://<%=pkg.cfg.host%>:<%=pkg.cfg.port%>/' + url.replace('public/', '');
-                        })
-                }
-            }
-        },
-
-
-
-        //bundling related configuration
-
+    //tasks default configuration/options
         browserify: {
             options: {
                 transform: [
@@ -57,122 +24,31 @@ module.exports = function(grunt) {
                 browserifyOptions: {
                     debug: true
                 }
-            },
-            bundle: {
-                files: {
-                    'public/js/bundle.js': ['public/js/src/main.js']
-                }
-            },
-            test: {
-                files: [{
-                    expand: true,
-                    cwd: 'public/js/test/',
-                    dest: 'public/js/test/',
-                    src: '**/test.js',
-                    ext: '.bundle.js'
-                }]
             }
         },
-
-        exorcise: {
+        connect: {
             options: {
-                base: 'public'
-            },
-            bundle: {
-                files: {
-                    'public/js/bundle.js.map': ['public/js/bundle.js']
-                }
+                hostname: '<%= pkg.cfg.host %>',
+                port: '<%= pkg.cfg.port %>',
+                base: '<%= pkg.cfg.baseDir %>',
+                livereload: false
             }
         },
-
-        uglify: {
-            bundle: {
-                options: {
-                    sourceMap: true,
-                    sourceMapIncludeSources: true,
-                    sourceMapIn: '<%=pkg.cfg.baseDir%>js/bundle.js.map',
-                    banner: '/* <%= pkg.name %> - <%= pkg.version %>'  +
-                            ' * © <%= grunt.template.today("yyyy") %>' +
-                            ' */'
-                },
-                files: [{
-                    dest : '<%=pkg.cfg.baseDir%>js/bundle.min.js',
-                    src  : ['<%=pkg.cfg.baseDir%>js/bundle.js']
-                }]
-            }
-        },
-
-        // update dd
-
-        foodfact: {
-            update: {
-                urls: [
-                    'http://world.openfoodfacts.org/data/data-fields.txt',
-                    'http://world.openfoodfacts.org/data/en.openfoodfacts.org.products.csv'
-                ],
-                files: {
-                    'data/db.json': 'data/*.csv'
-                },
-                options: {
-                    download: false
-                }
-            }
-        },
-
-        //tasks management
-
         clean: {
             options: {
-                force: true
-            },
-            bundle: {
-                files: [{
-                    expand: true,
-                    cwd: 'public/js',
-                    src: ['bundle.js*']
-                }]
-            },
-            update: ['data/db.json']
-        },
-        watch: {
-            dev: {
-                files: ['public/js/src/**/*.js'],
-                tasks: ['bundle'],
-                options: {
-                    livereload: true
-                }
-            },
-            test: {
-                files: ['public/js/test/**/test.js', 'public/js/src/**/*.js'],
-                tasks: ['browserify:test', 'qunit:test']
-            }
-        },
-
-
-        concurrent: {
-            dev: {
-                tasks: ['watch:dev', 'watch:test', 'watch:sass'],
-                options: {
-                    logConcurrentOutput: true
-                }
+                force : true
             }
         }
     });
 
+    //load npm tasks
     require('load-grunt-tasks')(grunt);
 
+    //load configurations into the grunt folder
     grunt.loadTasks('grunt/');
 
-
-    grunt.registerTask('bundle', 'Compile client side code', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
-
-    grunt.registerTask('test', 'Run client side tests', ['browserify:test', 'connect:dev', 'qunit:test']);
-
-    grunt.registerTask('build', 'Compile and test, before releasing', ['bundle', 'sass:compile', 'test']);
-
-    grunt.registerTask('preview', 'Preview the app', ['bundle', 'sass:compile', 'connect:preview:keepalive']);
-
-    grunt.registerTask('dev', 'Run development mode', ['connect:dev', 'open:dev', 'concurrent:dev']);
-
+    //the default task
+    grunt.registerTask('build',   'Compile and test, before releasing', ['bundle', 'sass:compile', 'test']);
+    grunt.registerTask('default', 'Compile and test, before releasing', ['build']);
 };
 

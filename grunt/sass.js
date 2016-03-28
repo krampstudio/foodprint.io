@@ -1,3 +1,9 @@
+/**
+ * Sass compilation tasks
+ *
+ * grunt sass:compile
+ * grunt watch:sass
+ */
 module.exports = function(grunt) {
 
     grunt.config.merge({
@@ -8,14 +14,14 @@ module.exports = function(grunt) {
             },
             compile: {
                 files : [{
-                    dest: '<%= pkg.cfg.baseDir %>css/foodprint.css',
-                    src : '<%= pkg.cfg.baseDir %>scss/foodprint.scss'
+                    dest: '<%= pkg.cfg.baseDir %>/css/foodprint.css',
+                    src : '<%= pkg.cfg.baseDir %>/scss/foodprint.scss'
                 }]
             }
         },
         watch: {
             sass: {
-                files: ['<%= pkg.cfg.baseDir %>scss/**/*.scss'],
+                files: ['<%= pkg.cfg.baseDir %>/scss/**/*.scss'],
                 tasks: ['sass:compile'],
                 options: {
                     livereload: true
