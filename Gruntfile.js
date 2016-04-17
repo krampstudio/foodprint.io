@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
     grunt.log.debug('Environment: ' + env);
     if(!cssStyles[env]){
-        grunt.log.warn('Unknow environment: ' + env);
+        grunt.log.warn('Unknown environment: ' + env);
     }
 
     grunt.initConfig({
