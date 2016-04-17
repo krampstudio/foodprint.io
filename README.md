@@ -16,6 +16,7 @@ npm install
 ```sh
 grunt preview
 ```
+This will open the application in your web browser.
 
 ## Development
 
@@ -24,6 +25,10 @@ grunt preview
 ```sh
 grunt build
 ```
+
+It compiles and optimizes the JavaScript code from ES2015 to ES5, and extract the source maps.
+It compiles and optimizes the SASS files to CSS.
+
 
 ### Development mode
 
