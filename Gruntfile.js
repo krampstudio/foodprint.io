@@ -43,6 +43,7 @@ module.exports = function(grunt) {
 
     //load npm tasks
     require('load-grunt-tasks')(grunt);
+    require('time-grunt')(grunt);
 
     //load configurations into the grunt folder
     grunt.loadTasks('grunt/');

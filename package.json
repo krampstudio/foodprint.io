@@ -5,9 +5,9 @@
   "scripts": {
     "bundle": "grunt bundle",
     "compile": "grunt bundle > /dev/null && grunt sass:compile > /dev/null ",
-    "test" : "grunt test",
-    "prepublish" : "grunt bundle",
-    "start" : "grunt preview"
+    "test": "grunt test",
+    "prepublish": "grunt bundle",
+    "start": "grunt preview"
   },
   "author": "Bertrand Chevrier <chevrier.bertrand@gmail.com>",
   "license": "MIT",
@@ -27,15 +27,17 @@
     "grunt-contrib-qunit": "^1.0.1",
     "grunt-contrib-uglify": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-foodfact" : "krampstudio/grunt-foodfact",
     "grunt-exorcise": "^2.1.0",
     "grunt-open": "^0.2.3",
     "grunt-sass": "^1.1.0",
     "load-grunt-tasks": "^3.4.1",
-    "qunitjs": "^1.21.0"
+    "qunitjs": "^1.21.0",
+    "time-grunt": "^1.3.0"
   },
   "cfg": {
     "baseDir": "public",
-    "dataDir" : "data",
+    "dataDir": "data",
     "host": "127.0.0.1",
     "port": 4321,
     "browser": "fxdev -no-remote"
