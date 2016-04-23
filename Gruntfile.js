@@ -1,6 +1,8 @@
+
 module.exports = function(grunt) {
 
     grunt.initConfig({
+
         sass: {
             options: {
                 sourceMap: true,
@@ -11,7 +13,9 @@ module.exports = function(grunt) {
                     'public/css/foodprint.css': ['public/scss/foodprint.scss']
                 }
             }
-        },
+        }
     });
+
     grunt.loadNpmTasks('grunt-sass');
+
 };
