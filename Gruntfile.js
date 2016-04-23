@@ -1,55 +1,47 @@
-/**
- * Default Grunt configuration.
- * Tasks are conbfigured into their respective files :
- *  - grunt/sass.js   : SCSS compilcation
- *  - grunt/test.js   : compile and run tests
- *  - grunt/bundle.js : compile and optimize client side js
- *  - grunt/dev.js    : development modes
- */
 module.exports = function(grunt) {
 
     grunt.initConfig({
-
-    //load config and metadata
-        pkg: grunt.file.readJSON('package.json'),
-
-    //tasks default configuration/options
-        browserify: {
+        sass: {
             options: {
-                transform: [
-                    ['babelify', {
-                        'presets': ['es2015']
-                    }]
-                ],
-                browserifyOptions: {
-                    debug: true
+                sourceMap: true,
+                outputStyle: 'compressed'
+            },
+            compile: {
+                files: {
+                    'public/css/foodprint.css': ['public/scss/foodprint.scss']
+                }
+            }
+        },
+        browserify: {
+            bundle: {
+                files: {
+                    'public/js/bundle.min.js': ['public/js/src/main.js']
+                },
+                options: {
+                    transform: [
+                        ['babelify', {
+                            'presets': ['es2015']
+                        }]
+                    ],
+                    browserifyOptions: {
+                        debug: true
+                    }
                 }
             }
         },
         connect: {
-            options: {
-                hostname: '<%= pkg.cfg.host %>',
-                port: '<%= pkg.cfg.port %>',
-                base: '<%= pkg.cfg.baseDir %>',
-                livereload: false
-            }
-        },
-        clean: {
-            options: {
-                force : true
+            preview: {
+                options: {
+                    hostname: '127.0.0.1',
+                    port: '4321',
+                    base: 'public'
+                }
             }
         }
     });
+    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
-    //load npm tasks
-    require('load-grunt-tasks')(grunt);
-    require('time-grunt')(grunt);
-
-    //load configurations into the grunt folder
-    grunt.loadTasks('grunt/');
-
-    //the default task
-    grunt.registerTask('build',   'Compile and test, before releasing', ['bundle', 'sass:compile', 'test']);
-    grunt.registerTask('default', 'Compile and test, before releasing', ['build']);
+    grunt.registerTask('preview', 'Preview the application', ['browserify:bundle', 'sass:compile', 'connect:preview:keepalive']);
 };
-
