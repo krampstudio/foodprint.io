@@ -4,13 +4,13 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         sass: {
-            options: {
-                sourceMap: true,
-                outputStyle: 'compressed'
-            },
             compile: {
                 files: {
-                    'public/css/foodprint.css': ['public/scss/foodprint.scss']
+                    'public/css/foodprint.css': ['public/scss/*.scss']
+                },
+                options: {
+                    sourceMap: true,
+                    outputStyle: 'compressed'
                 }
             }
         }
