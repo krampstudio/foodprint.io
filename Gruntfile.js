@@ -2,13 +2,6 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
-        clean: {
-            coverage: {
-                src: ['coverage']
-            }
-        },
-
-
         mochaTest: {
             test: {
                 options: {
@@ -16,18 +9,6 @@ module.exports = function(grunt) {
                     require: ['babel-register']
                 },
                 src: ['test/**/*.js']
-            }
-        },
-
-        shell: {
-            coverage: {
-                command: 'node_modules/.bin/babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- test/**/*.js'
-            }
-        },
-
-        open : {
-            coverage: {
-                path : './coverage/lcov-report/index.html'
             }
         },
 
@@ -52,9 +33,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-shell');
-
-    grunt.registerTask('coverage', ['clean:coverage', 'mochaTest:test', 'shell:coverage', 'open:coverage']);
 };
 

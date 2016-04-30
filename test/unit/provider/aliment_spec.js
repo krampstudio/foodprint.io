@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import alimentProvider from '../../src/provider/aliment';
+import alimentProvider from '../../../src/provider/aliment';
 
 describe('aliment provider', () => {
 
