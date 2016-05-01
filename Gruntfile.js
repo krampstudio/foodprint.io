@@ -22,7 +22,7 @@ module.exports = function(grunt) {
         open : {
             dev : {
                 path: 'http://127.0.0.1:4321/index.html',
-                app : 'fxdev'
+                app : 'firefox'
             }
         },
 
