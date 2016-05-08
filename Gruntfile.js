@@ -153,12 +153,6 @@ module.exports = function(grunt) {
                     src: ['bundle.js*']
                 }]
             }
-        },
-
-        foodfact: {
-            dist : {
-
-            }
         }
     });
 
