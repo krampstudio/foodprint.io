@@ -11,10 +11,10 @@ module.exports = function(grunt) {
         'prod': 'compressed'
     };
 
-    //grunt.log.debug('Environment: ' + env);
-    //if(!cssStyles[env]){
-        //grunt.log.warn('Unknow environment: ' + env);
-    //}
+    grunt.log.debug('Environment: ' + env);
+    if(!cssStyles[env]){
+        grunt.log.warn('Unknow environment: ' + env);
+    }
 
     grunt.initConfig({
 
