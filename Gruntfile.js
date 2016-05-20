@@ -19,7 +19,7 @@ module.exports = function(grunt) {
             options: {
                 hostname: '127.0.0.1',
                 port: 4321,
-                base: baseDir
+                base: 'public'
             },
             preview: {
                 options: {
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
         qunit: {
             test: {
                 options: {
-                    urls: grunt.file.expand(baseDir + 'js/test/**/test.html')
+                    urls: grunt.file.expand('public/js/test/**/test.html')
                         .map(function(url) {
                             return 'http://127.0.0.1:4321/' + url.replace('public/', '');
                         })
