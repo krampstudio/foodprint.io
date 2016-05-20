@@ -1,9 +1,9 @@
 module.exports = function(grunt) {
 
 
-    grunt.initConfig({
+    var baseDir = 'public/';
 
-        cfg: grunt.file.readJSON('config.json'),
+    grunt.initConfig({
 
         sass: {
             options: {
@@ -11,18 +11,15 @@ module.exports = function(grunt) {
                 outputStyle: 'compressed'
             },
             compile: {
-                files : [{
-                    dest: '<%= cfg.baseDir %>css/foodprint.css',
-                    src : '<%= cfg.baseDir %>scss/foodprint.scss'
-                }]
+                'public/css/foodprint.css': baseDir + 'scss/foodprint.scss'
             }
         },
 
         connect: {
             options: {
-                hostname: '<%= cfg.server.host %>',
-                port: '<%= cfg.server.port %>',
-                base: '<%= cfg.baseDir %>'
+                hostname: '127.0.0.1',
+                port: 4321,
+                base: baseDir
             },
             preview: {
                 options: {
@@ -38,8 +35,8 @@ module.exports = function(grunt) {
 
         open: {
             dev: {
-                path: 'http://<%=cfg.server.host%>:<%=cfg.server.port%>/index.html',
-                app: 'fxdev'
+                path: 'http://127.0.0.1:4321/index.html',
+                app: 'firefox --no-remote'
             }
         },
 
@@ -48,9 +45,9 @@ module.exports = function(grunt) {
         qunit: {
             test: {
                 options: {
-                    urls: grunt.file.expand('public/js/test/**/test.html')
+                    urls: grunt.file.expand(baseDir + 'js/test/**/test.html')
                         .map(function(url) {
-                            return 'http://<%=cfg.server.host%>:<%=cfg.server.port%>/' + url.replace('public/', '');
+                            return 'http://127.0.0.1:4321/' + url.replace('public/', '');
                         })
                 }
             }
@@ -103,12 +100,12 @@ module.exports = function(grunt) {
                 options: {
                     sourceMap: true,
                     sourceMapIncludeSources: true,
-                    sourceMapIn: '<%=cfg.baseDir%>js/bundle.js.map',
-                    banner: '/* Foodprint.io © <%= grunt.template.today("yyyy") %> */'
+                    sourceMapIn: 'public/js/bundle.js.map',
+                    banner: '/* Foodprint.io © 2016 */'
                 },
                 files: [{
-                    dest : '<%=cfg.baseDir%>js/bundle.min.js',
-                    src  : ['<%=cfg.baseDir%>js/bundle.js']
+                    dest : 'public/js/bundle.min.js',
+                    src  : ['public/js/bundle.js']
                 }]
             }
         },
@@ -174,7 +171,7 @@ module.exports = function(grunt) {
                     logConcurrentOutput: true
                 }
             }
-        },
+        }
     });
 
     require('load-grunt-tasks')(grunt);
