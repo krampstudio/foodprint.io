@@ -5,10 +5,23 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
+        sass: {
+            options: {
+                sourceMap: true,
+                outputStyle: 'compressed'
+            },
+            compile: {
+                files : [{
+                    dest: '<%= pkg.cfg.baseDir %>css/foodprint.css',
+                    src : '<%= pkg.cfg.baseDir %>scss/foodprint.scss'
+                }]
+            }
+        },
+
         connect: {
             options: {
-                hostname: '<%= pkg.cfg.host %>',
-                port: '<%= pkg.cfg.port %>',
+                hostname: '<%= pkg.cfg.server.host %>',
+                port: '<%= pkg.cfg.server.port %>',
                 base: '<%= pkg.cfg.baseDir %>'
             },
             preview: {
@@ -25,8 +38,8 @@ module.exports = function(grunt) {
 
         open: {
             dev: {
-                path: 'http://<%=pkg.cfg.host%>:<%=pkg.cfg.port%>/index.html',
-                app: 'fxdev'
+                path: 'http://<%= pkg.cfg.server.host %>:<%= pkg.cfg.server.port %>/index.html',
+                app: '<%= pkg.cfg.browser %>'
             }
         },
 
@@ -37,7 +50,7 @@ module.exports = function(grunt) {
                 options: {
                     urls: grunt.file.expand('public/js/test/**/test.html')
                         .map(function(url) {
-                            return 'http://<%=pkg.cfg.host%>:<%=pkg.cfg.port%>/' + url.replace('public/', '');
+                            return 'http://<%= pkg.cfg.server.host %>:<%= pkg.cfg.server.port %>/' + url.replace('public/', '');
                         })
                 }
             }
@@ -59,15 +72,16 @@ module.exports = function(grunt) {
                 }
             },
             bundle: {
-                files: {
-                    'public/js/bundle.js': ['public/js/src/main.js']
-                }
+                files: [{
+                    dest : '<%= pkg.cfg.baseDir %>js/bundle.js',
+                    src  : ['<%= pkg.cfg.baseDir %>js/src/main.js']
+                }]
             },
             test: {
                 files: [{
                     expand: true,
-                    cwd: 'public/js/test/',
-                    dest: 'public/js/test/',
+                    cwd: '<%= pkg.cfg.baseDir %>js/test/',
+                    dest: '<%= pkg.cfg.baseDir %>js/test/',
                     src: '**/test.js',
                     ext: '.bundle.js'
                 }]
@@ -76,12 +90,13 @@ module.exports = function(grunt) {
 
         exorcise: {
             options: {
-                base: 'public'
+                base: '<%= pkg.cfg.baseDir %>'
             },
             bundle: {
-                files: {
-                    'public/js/bundle.js.map': ['public/js/bundle.js']
-                }
+                files: [{
+                    dest : '<%= pkg.cfg.baseDir %>js/bundle.js.map',
+                    src  : ['<%= pkg.cfg.baseDir %>js/bundle.js']
+                }]
             }
         },
 
@@ -90,14 +105,14 @@ module.exports = function(grunt) {
                 options: {
                     sourceMap: true,
                     sourceMapIncludeSources: true,
-                    sourceMapIn: '<%=pkg.cfg.baseDir%>js/bundle.js.map',
-                    banner: '/* <%= pkg.name %> - <%= pkg.version %>'  +
+                    sourceMapIn: '<%= pkg.cfg.baseDir %>js/bundle.js.map',
+                    banner: '/* Foodprint.io 0.1.0'  +
                             ' * © <%= grunt.template.today("yyyy") %>' +
                             ' */'
                 },
                 files: [{
-                    dest : '<%=pkg.cfg.baseDir%>js/bundle.min.js',
-                    src  : ['<%=pkg.cfg.baseDir%>js/bundle.js']
+                    dest : '<%= pkg.cfg.baseDir %>js/bundle.min.js',
+                    src  : ['<%= pkg.cfg.baseDir %>js/bundle.js']
                 }]
             }
         },
@@ -128,7 +143,7 @@ module.exports = function(grunt) {
             bundle: {
                 files: [{
                     expand: true,
-                    cwd: 'public/js',
+                    cwd: '<%= pkg.cfg.baseDir %>js',
                     src: ['bundle.js*']
                 }]
             },
@@ -136,15 +151,22 @@ module.exports = function(grunt) {
         },
         watch: {
             dev: {
-                files: ['public/js/src/**/*.js'],
+                files: ['<%= pkg.cfg.baseDir %>js/src/**/*.js'],
                 tasks: ['bundle'],
                 options: {
                     livereload: true
                 }
             },
             test: {
-                files: ['public/js/test/**/test.js', 'public/js/src/**/*.js'],
+                files: ['<%= pkg.cfg.baseDir %>js/test/**/test.js', '<%=pkg.cfg.baseDir%>js/src/**/*.js'],
                 tasks: ['browserify:test', 'qunit:test']
+            },
+            sass: {
+                files: ['<%= pkg.cfg.baseDir %>js/scss/**/*.scss'],
+                tasks: ['sass:compile'],
+                options: {
+                    livereload: true
+                }
             }
         },
 
@@ -160,9 +182,6 @@ module.exports = function(grunt) {
     });
 
     require('load-grunt-tasks')(grunt);
-
-    grunt.loadTasks('grunt/');
-
 
     grunt.registerTask('bundle', 'Compile client side code', ['browserify:bundle', 'exorcise:bundle', 'uglify:bundle', 'clean:bundle']);
 

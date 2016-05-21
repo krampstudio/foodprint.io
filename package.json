@@ -34,8 +34,10 @@
   },
   "cfg": {
     "baseDir": "public/",
-    "host": "127.0.0.1",
-    "port": 4321,
-    "browser": "fxdev -no-remote"
+    "server" : {
+      "host": "127.0.0.1",
+      "port": 4321
+    },
+    "browser": "firefox -no-remote"
   }
 }
