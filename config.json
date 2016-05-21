@@ -1,0 +1,8 @@
+{
+  "baseDir": "public/",
+  "server": {
+    "host": "localhost",
+    "port": 4321
+  },
+  "browser" : "firefox --no-remote"
+}

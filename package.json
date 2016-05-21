@@ -2,12 +2,6 @@
   "name": "foodprint.io",
   "version": "0.1.0",
   "description": "Take the control back on the food you ingest.",
-  "scripts": {
-    "bundle": "grunt bundle",
-    "compile": "grunt bundle > /dev/null && grunt sass:compile > /dev/null ",
-    "test" : "grunt test",
-    "prepublish" : "grunt bundle"
-  },
   "author": "Bertrand Chevrier <chevrier.bertrand@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -31,11 +25,5 @@
     "grunt-sass": "^1.1.0",
     "load-grunt-tasks": "^3.4.1",
     "qunitjs": "^1.21.0"
-  },
-  "cfg": {
-    "baseDir": "public/",
-    "host": "127.0.0.1",
-    "port": 4321,
-    "browser": "fxdev -no-remote"
   }
 }
