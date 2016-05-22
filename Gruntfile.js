@@ -43,20 +43,6 @@ module.exports = function(grunt) {
             }
         },
 
-        //tests
-
-        qunit: {
-            test: {
-                options: {
-                    urls: grunt.file.expand('public/js/test/**/test.html')
-                        .map(function(url) {
-                            return 'http://<%= pkg.cfg.server.host %>:<%= pkg.cfg.server.port %>/' + url.replace('public/', '');
-                        })
-                }
-            }
-        },
-
-
 
         //bundling related configuration
 
@@ -153,17 +139,6 @@ module.exports = function(grunt) {
             dev: {
                 files: ['<%= pkg.cfg.baseDir %>js/src/**/*.js'],
                 tasks: ['bundle'],
-                options: {
-                    livereload: true
-                }
-            },
-            test: {
-                files: ['<%= pkg.cfg.baseDir %>js/test/**/test.js', '<%=pkg.cfg.baseDir%>js/src/**/*.js'],
-                tasks: ['browserify:test', 'qunit:test']
-            },
-            sass: {
-                files: ['<%= pkg.cfg.baseDir %>js/scss/**/*.scss'],
-                tasks: ['sass:compile'],
                 options: {
                     livereload: true
                 }
